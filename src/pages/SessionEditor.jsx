@@ -1,6 +1,5 @@
 import { useEffect, useState, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import API from '../api/api';
 
 const SessionEditor = () => {
@@ -10,7 +9,6 @@ const SessionEditor = () => {
   const [tags, setTags] = useState('');
   const [jsonUrl, setJsonUrl] = useState('');
   const [lastSaved, setLastSaved] = useState(null);
-  const [timer, setTimer] = useState(null);
 
   const fetchSession = async () => {
     if (!id) return;
@@ -43,7 +41,6 @@ const SessionEditor = () => {
   useEffect(() => {
     const timeout = setTimeout(autoSave, 5000);
     const interval = setInterval(autoSave, 30000);
-    setTimer(interval);
     return () => {
       clearTimeout(timeout);
       clearInterval(interval);
@@ -62,23 +59,49 @@ const SessionEditor = () => {
   };
 
   return (
-    <div className="container mt-4">
-      <h2>Session Editor</h2>
-      <div className="mb-3">
-        <label>Title</label>
-        <input className="form-control" value={title} onChange={(e) => setTitle(e.target.value)} />
+    <div className="max-w-3xl mx-auto mt-10 p-6 bg-white shadow-md rounded-lg">
+      <h2 className="text-2xl font-semibold text-gray-800 mb-6">Session Editor</h2>
+
+      <div className="mb-4">
+        <label className="block text-gray-700 font-medium mb-2">Title</label>
+        <input
+          type="text"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          className="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-400"
+        />
       </div>
-      <div className="mb-3">
-        <label>Tags (comma separated)</label>
-        <input className="form-control" value={tags} onChange={(e) => setTags(e.target.value)} />
+
+      <div className="mb-4">
+        <label className="block text-gray-700 font-medium mb-2">Tags (comma separated)</label>
+        <input
+          type="text"
+          value={tags}
+          onChange={(e) => setTags(e.target.value)}
+          className="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-400"
+        />
       </div>
-      <div className="mb-3">
-        <label>JSON URL</label>
-        <input className="form-control" value={jsonUrl} onChange={(e) => setJsonUrl(e.target.value)} />
+
+      <div className="mb-4">
+        <label className="block text-gray-700 font-medium mb-2">JSON File URL</label>
+        <input
+          type="text"
+          value={jsonUrl}
+          onChange={(e) => setJsonUrl(e.target.value)}
+          className="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-400"
+        />
       </div>
-      <div className="mb-3">
-        <button className="btn btn-success" onClick={handlePublish}>Publish</button>
-        {lastSaved && <small className="text-muted ms-3">Auto-saved at {lastSaved}</small>}
+
+      <div className="flex items-center justify-between mt-6">
+        <button
+          onClick={handlePublish}
+          className="bg-green-500 hover:bg-green-600 text-white font-semibold px-6 py-2 rounded shadow"
+        >
+          Publish
+        </button>
+        {lastSaved && (
+          <span className="text-sm text-gray-500">Auto-saved at {lastSaved}</span>
+        )}
       </div>
     </div>
   );
