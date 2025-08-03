@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 const API = axios.create({
-  baseURL: 'http://localhost:5000/api', // Vite will proxy this to http://localhost:5000 if configured
+  baseURL: 'https://wellness-session-app-backend.onrender.com/api', // Vite will proxy this to http://localhost:5000 if configured
 });
 
 // Add Authorization token to every request if present
